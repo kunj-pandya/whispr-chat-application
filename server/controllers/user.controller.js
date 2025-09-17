@@ -52,8 +52,6 @@ export const signup = catchAsyncError(async (req, res, next) => {
 
     generateJWTToken(user, "User registered successfully", 201, res);
 
-    console.log("usercretaed: ", user);
-
 });
 
 export const signin = catchAsyncError(async (req, res, next) => {
@@ -95,7 +93,18 @@ export const signin = catchAsyncError(async (req, res, next) => {
 
 });
 
-export const signout = catchAsyncError(async (req, res, next) => { });
+export const signout = catchAsyncError(async (req, res, next) => {
+    res.status(200).cookie("token", "", {
+        httpOnly: true,
+        maxAge: 0,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV !== "development" ? true : false,
+    })
+        .json({
+            success: true,
+            message: "User loggeed out successfully.",
+        });
+});
 
 export const getUser = catchAsyncError(async (req, res, next) => { });
 
