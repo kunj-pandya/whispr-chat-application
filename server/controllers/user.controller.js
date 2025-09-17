@@ -106,6 +106,15 @@ export const signout = catchAsyncError(async (req, res, next) => {
         });
 });
 
-export const getUser = catchAsyncError(async (req, res, next) => { });
+export const getUser = catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.user._id);
+
+    // const user = req.user;
+
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
 
 export const updateProfile = catchAsyncError(async (req, res, next) => { });
