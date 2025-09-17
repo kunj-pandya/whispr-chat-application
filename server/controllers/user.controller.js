@@ -92,6 +92,7 @@ export const signin = catchAsyncError(async (req, res, next) => {
     };
 
     generateJWTToken(user, "user logged in successfully", 200, res);
+
 });
 
 export const signout = catchAsyncError(async (req, res, next) => { });
