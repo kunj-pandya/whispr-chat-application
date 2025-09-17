@@ -6,6 +6,6 @@ export const dbConnection = () => {
     }).then(() => {
         console.log("Connected to Databse.");
     }).catch((error) => {
-        console.log(`Error connecting to databse: ${error.message || error}`);
+        console.log(`Error connecting to database: ${error.message || error}`);
     });
 };
