@@ -121,7 +121,7 @@ export const getUser = catchAsyncError(async (req, res, next) => {
 export const updateProfile = catchAsyncError(async (req, res, next) => {
     const { fullname, email } = req.body;
 
-    if (fullname.trim().length === 0 || email.trim().length === 0) {
+    if (fullname?.trim().length === 0 || email?.trim().length === 0) {
         return res.status(400).json({
             success: false,
             message: "Fullname and Email can't be empty."
