@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../lib/axios";
-import { connectSocket } from "../../lib/socket";
+import { connectSocket, disconnectSocket } from "../../lib/socket";
+import { toast } from "react-toastify";
 
 
 export const getUser = createAsyncThunk("user/me", async (_, thunkAPI) => {
@@ -13,6 +14,17 @@ export const getUser = createAsyncThunk("user/me", async (_, thunkAPI) => {
         return thunkAPI.rejectWithValue(
             error.response?.data || "Failed to fetch user"
         );
+    }
+});
+
+export const logout = createAsyncThunk("user/sign-out", async (_, thunkAPI) => {
+    try {
+        await axiosInstance.get("/users/sign-out");
+        disconnectSocket();
+        return null;
+    } catch (error) {
+        toast.error(error.response.data.message);
+        return thunkAPI.rejectWithValue(error.response.data.message);
     }
 });
 
@@ -37,7 +49,11 @@ const authSlice = createSlice({
                 state.isCheckingAuth = false;
             }).addCase(getUser.rejected, (state) => {
                 state.authUser = null; state.isCheckingAuth = false;
-            });
+            }).addCase(logout.fulfilled, (state) => {
+                state.authUser = null;
+            }).addCase(logout.rejected, (state) => [
+                state.authUser
+            ])
     },
 });
 
