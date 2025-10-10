@@ -40,6 +40,18 @@ export const login = createAsyncThunk("user/sign-in", async (data, thunkAPI) => 
     }
 });
 
+export const signup = createAsyncThunk("auth.sign-up", async (data, thunkAPI) => {
+    try {
+        const res = await axiosInstance.post("/user/sign-up", data);
+        connectSocket(res.data);
+        toast.success("Account created successfully.")
+        return res.data;
+    } catch (error) {
+        toast.error(error.response.data.message);
+        return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+})
+
 
 const authSlice = createSlice({
     name: "auth",
@@ -63,15 +75,22 @@ const authSlice = createSlice({
                 state.authUser = null; state.isCheckingAuth = false;
             }).addCase(logout.fulfilled, (state) => {
                 state.authUser = null;
-            }).addCase(logout.rejected, (state) => [
+            }).addCase(logout.rejected, (state) => {
                 state.authUser = null
-            ]).addCase(login.pending, (state) => {
+            }).addCase(login.pending, (state) => {
                 state.isLogginIn = true;
             }).addCase(login.fulfilled, (state, action) => {
                 state.authUser = action.payload;
                 state.isLogginIn = false;
             }).addCase(login.rejected, (state) => {
                 state.isLogginIn = false;
+            }).addCase(signup.pending, (state) => {
+                state.isSigningUp = true;
+            }).addCase(signup.fulfilled, (state, action) => {
+                state.authUser = action.payload;
+                state.isSigningUp = false;
+            }).addCase(signup.rejected, (state) => {
+                state.isSigningUp = false;
             });
     },
 });
