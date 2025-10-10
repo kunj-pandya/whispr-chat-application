@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getUser());
-  }, [getUser]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (authUser) {
@@ -34,9 +34,9 @@ function App() {
 
       return () => disconnectSocket();
     }
-  }, [authUser]);
+  }, [authUser, dispatch]);
 
-  if (isCheckingAuth & !authUser) {
+  if (isCheckingAuth && !authUser) {
     return (
       <div className='flex items-center justify-center h-screen'>
         <Loader className='size-10 animate-spin' />
@@ -50,7 +50,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={authUser ? <Home /> : <Navigate to={"/login"} />} />
-          <Route path='/register' element={!authUser ? <Register /> : <Navigate to={"/"} />} />x
+          <Route path='/register' element={!authUser ? <Register /> : <Navigate to={"/"} />} />
           <Route path='/login' element={!authUser ? <Login /> : <Navigate to={"/"} />} />x
           <Route path='/profile' element={authUser ? <Profile /> : <Navigate to={"/login"} />} />
         </Routes>
