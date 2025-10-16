@@ -96,8 +96,8 @@ Follow these steps to get the backend server running locally:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/kunj-pandya/whispr.git
-    cd whispr/server
+    git clone https://github.com/kunj-pandya/whispr-chat-application.git
+    cd whispr-chat-application/server
     ```
 
 2. Install server dependencies:
