@@ -11,8 +11,7 @@ export function initSocket(server) {
         },
     });
 
-    io.on("Connection", (socket) => {
-        console.log("A user connected to the server", socket.id);
+    io.on("connection", (socket) => {
 
         const userId = socket.handshake.query.userId
 
@@ -21,7 +20,6 @@ export function initSocket(server) {
         io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
         socket.on("disconnect", () => {
-            console.log("A user disconnected", socket.io);
             delete userSocketMap[userId];
             io.emit("getOnlineUsers", Object.keys(userSocketMap));
         });
