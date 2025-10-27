@@ -21,8 +21,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+    if (!authUser) {
+      dispatch(getUser());
+    }
+  }, [authUser, dispatch]);
 
   useEffect(() => {
     if (authUser) {
