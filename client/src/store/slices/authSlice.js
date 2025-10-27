@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export const getUser = createAsyncThunk("user/me", async (_, thunkAPI) => {
     try {
         const res = await axiosInstance.get("/user/me");
-        connectSocket(res.data.user);
+        connectSocket(res.data.user._id);
         return res.data.user;
     } catch (error) {
         console.log("Error fetching user:", error);
@@ -80,14 +80,14 @@ const authSlice = createSlice({
             }).addCase(login.pending, (state) => {
                 state.isLogginIn = true;
             }).addCase(login.fulfilled, (state, action) => {
-                state.authUser = action.payload;
+                state.authUser = action.payload.user;
                 state.isLogginIn = false;
             }).addCase(login.rejected, (state) => {
                 state.isLogginIn = false;
             }).addCase(signup.pending, (state) => {
                 state.isSigningUp = true;
             }).addCase(signup.fulfilled, (state, action) => {
-                state.authUser = action.payload;
+                state.authUser = action.payload.user;
                 state.isSigningUp = false;
             }).addCase(signup.rejected, (state) => {
                 state.isSigningUp = false;
