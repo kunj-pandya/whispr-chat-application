@@ -18,7 +18,7 @@ const ChatContainer = () => {
 
     useEffect(() => {
         dispatch(getMessages(selectedUser._id))
-    }, [selectedUser._id])
+    }, [dispatch, selectedUser._id])
 
     useEffect(() => {
         if (messageEndRef.current && message) {
@@ -43,7 +43,7 @@ const ChatContainer = () => {
         const socket = getSocket();
 
         if (!socket) return;
-    }, selectedUser?._id);
+    }, [dispatch, selectedUser?._id]);
 
     if (isMessagesLoading) {
         return (
